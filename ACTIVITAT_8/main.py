@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -20,6 +21,7 @@ table_names = [{0: "Lluis", "curs": "DAW2B"},
                {1: "Angel", "curs": "DAW2A"},
                {2: "Marta", "curs": "DAM2C"},
                {3: "Joan", "curs": "ASIX2Z"}]
+
 #agafa el id de l'alumne des del navegador
 @app.get("/student/{id}")
 async def student_info(id):
@@ -33,3 +35,24 @@ async def student_info(id):
         raise HTTPException(status_code=404, detail="Alumne no trobat")
 
 
+#BaseModel
+class Persona(BaseModel):
+    name: str
+    surname: str
+    email: str
+    years: int
+    telf: int
+    city: str | None = None
+
+# llista per desar persones
+personas_list = []
+
+#fem el endpoint per crear persones amb metode POST
+@app.post("/persona/")
+async def create_persona(persona: Persona):
+    #transformem el objecte en diccionari
+    persona_dict = persona.dict()
+    #inserim la persona en l'estructura ja creada
+    personas_list.append(persona_dict)
+    #retorna missatge mes la persona inserida en json
+    return {"message": "Persona afegida correctament", "persona": persona_dict}
