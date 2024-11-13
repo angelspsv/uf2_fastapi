@@ -25,12 +25,12 @@ table_names = [{0: "Lluis", "curs": "DAW2B"},
 #agafa el id de l'alumne des del navegador
 @app.get("/student/{id}")
 async def student_info(id):
-    #pas de Str a int
+    # pas de Str a int
     id_alumne = int(id)
-    #si l'id existeix mostra el objecte/diccionari alumne
+    # si l'id existeix mostra el objecte/diccionari alumne
     if (id_alumne > 0) and (id_alumne <= len(table_names)):
         return table_names[id_alumne]
-    #si no existeix llancem una excepcio
+        # si no existeix llancem una excepcio
     else:
         raise HTTPException(status_code=404, detail="Alumne no trobat")
 
@@ -49,4 +49,10 @@ class Persona(BaseModel):
 @app.post("/persona/")
 async def create_persona(persona: Persona):
     return persona
+
+
+# metode get per llançar excepcio 404
+@app.get("/alumne/{id}", status_code=404)
+async def mostra_alumne(id):
+    return id
 
