@@ -44,15 +44,9 @@ class Persona(BaseModel):
     telf: int
     city: str | None = None
 
-# llista per desar persones
-personas_list = []
 
 #fem el endpoint per crear persones amb metode POST
 @app.post("/persona/")
 async def create_persona(persona: Persona):
-    #transformem el objecte en diccionari
-    persona_dict = persona.dict()
-    #inserim la persona en l'estructura ja creada
-    personas_list.append(persona_dict)
-    #retorna missatge mes la persona inserida en json
-    return {"message": "Persona afegida correctament", "persona": persona_dict}
+    return persona
+
