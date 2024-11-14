@@ -39,7 +39,6 @@ async def mostra_alumne(id):
     return id
 
 
-
 # metode get modificat amb response per HTTPException
 items = {"2": "dos"}
 @app.get("/alumno/{id}")
