@@ -7,7 +7,7 @@ app = FastAPI()
 #endpoint d'exemple GET amb missatge
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hola Roger!"}
 
 
 #endpoint metode GET return item
@@ -15,24 +15,6 @@ async def root():
 async def returnItem(id_item):
     return {"id_item": id_item}
 
-
-#endpoint que simula l'acces a una bbdd i el retorn de dades d'un alumne
-table_names = [{0: "Lluis", "curs": "DAW2B"},
-               {1: "Angel", "curs": "DAW2A"},
-               {2: "Marta", "curs": "DAM2C"},
-               {3: "Joan", "curs": "ASIX2Z"}]
-
-#agafa el id de l'alumne des del navegador
-@app.get("/student/{id}")
-async def student_info(id):
-    # pas de Str a int
-    id_alumne = int(id)
-    # si l'id existeix mostra el objecte/diccionari alumne
-    if (id_alumne > 0) and (id_alumne <= len(table_names)):
-        return table_names[id_alumne]
-        # si no existeix llancem una excepcio
-    else:
-        raise HTTPException(status_code=404, detail="Alumne no trobat")
 
 
 #BaseModel
@@ -55,4 +37,14 @@ async def create_persona(persona: Persona):
 @app.get("/alumne/{id}", status_code=404)
 async def mostra_alumne(id):
     return id
+
+
+
+# metode get modificat amb response per HTTPException
+items = {"2": "dos"}
+@app.get("/alumno/{id}")
+async def mostra_alumne(id):
+    if id not in items:
+        raise HTTPException(status_code=404, detail="id not found in items")
+    return {"id": items[id]}
 
