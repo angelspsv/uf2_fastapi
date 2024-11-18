@@ -4,3 +4,9 @@
 
 + El primer codi PUT de items/item executat amb postman:
 ![execucio de PUT de items/item amb postman](put1.jpg)
+
++ Ara estic executant el codi PUT incomplint la regla definida en el camp descripcio i apareix l'error de +300 caracters
+![execucio de PUT de items/item amb postman](put2.jpg)
+
++ Ara estic executant el codi PUT incomplint la regla definida en el camp price i apareix l'error de només valors >0
+![execucio de PUT de items/item amb postman](put3.jpg)
