@@ -1,5 +1,5 @@
 from typing import Annotated
-
+from typing import List
 from fastapi import Body, FastAPI
 from pydantic import BaseModel, Field, HttpUrl
 
@@ -33,9 +33,7 @@ async def create_offer(offer: Offer):
 
 
 @app.post("/images/multiple/")
-async def create_multiple_images(*, images: list[Image]):
-    for image in images:
-        image.url
+async def create_multiple_images(images: list[Image]):
     return images
 
 
@@ -45,6 +43,9 @@ async def update_item(item_id: int, item: Item):
     return results
 
 
+@app.post("/index-weights/")
+async def create_index_weights(weights: dict[int, float]):
+    return weights
 
 
 

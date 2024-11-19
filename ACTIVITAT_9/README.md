@@ -11,7 +11,7 @@
 + Ara estic executant el codi PUT incomplint la regla definida en el camp price i apareix l'error de només valors >0
 ![execucio de PUT de items/item amb postman](put3.jpg)
 
-### Llegint i provant la documentació de fastapi de l'apartat de Body - nested models
+### Llegint i provant la documentació de fastapi de l'apartat de Body - nested models (https://fastapi.tiangolo.com/tutorial/body-nested-models/)
 + Es pot declarar un camp com una llista i amb tipus. 
 En aquest exemple tenim un nou camp anomenat _tags_ de tipus _String_ que en ser-hi declarat com a llista de tipus set() que no admet repetits, retorna una llista amb valors únics.
 ![execucio de PUT de items/item amb swagger](nested1.jpg)
@@ -28,5 +28,17 @@ En el següent exemple el camp Imatge passa a ser una llista d'imatges amb url i
 En les següents imatges es pot veure el cos d'una oferta on tenim dos objectes o productes amb les seves llistes d'imatges.  
 ![execucio de POST amb swagger models niats llista productes amb imatges](nested4.jpg)
 ![execucio de POST amb swagger models niats llista productes amb imatges](nested5.jpg)
+
+
++ Es pot declarar el tipus en el paràmetre de la funció, igual que els models Pydantic:
+![execucio de POST imatges/multiples amb swagger](nested6.jpg)
+
+
++ Aquest endpoint accepta tots els diccionaris amb key de tipus: int i les values de tipus: float.
+En el primer cas, li passem un diccionari amb tipus de valors correctes i retorna el dict bé, però 
+![execucio de POST index-weights amb swagger](nested7.jpg)
+en el segon cas, un dels key o clau no té el tipus correcte i apareix l'error de tipus: la clau ha de ser de tipus integer / int.
+![execucio de POST index-weights amb swagger](nested8.jpg)
+
 
 
