@@ -10,3 +10,4 @@
 
 + Ara estic executant el codi PUT incomplint la regla definida en el camp price i apareix l'error de només valors >0
 ![execucio de PUT de items/item amb postman](put3.jpg)
+
