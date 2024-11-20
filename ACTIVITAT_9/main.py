@@ -2,6 +2,7 @@ from typing import Annotated
 from typing import List
 from fastapi import Body, FastAPI
 from pydantic import BaseModel, Field, HttpUrl
+from create_table import *
 
 app = FastAPI()
 
@@ -66,3 +67,4 @@ async def update_item(item_id: int, item: Annotated[Item, Body(embed=True)]):
     results = {"item_id": item_id, "item": item}
     return results
 '''
+
