@@ -3,6 +3,7 @@ from typing import List
 from fastapi import Body, FastAPI
 from pydantic import BaseModel, Field, HttpUrl
 from create_table import *
+from conn import *
 
 app = FastAPI()
 
@@ -47,6 +48,29 @@ async def update_item(item_id: int, item: Item):
 @app.post("/index-weights/")
 async def create_index_weights(weights: dict[int, float]):
     return weights
+
+
+@app.get("/users/")
+async def read_users():
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+
+        sql_read = '''SELECT * FROM users'''
+
+        # Amb el mètode execute() s'envia la query
+        cur.execute(sql_read)
+        users = cur.fetchall()
+
+    except Exception as e:
+        return {"message": f"Error de connexió:{e}"}
+
+    finally:
+        conn.close()
+
+    return users
+
+
 
 
 
