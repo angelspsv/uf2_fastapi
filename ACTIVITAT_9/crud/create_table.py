@@ -1,6 +1,5 @@
 # fitxer per crear la taula
-import psycopg2
-from conn import *
+from ACTIVITAT_9.db_connect.conn import *
 
 def create_taula():
     # per fer la connexio s'utilitza el mètode cursor()
@@ -28,4 +27,4 @@ def create_taula():
     finally:
         # Tancar els recursos manualment
         cursor.close()
-create_taula()
+
