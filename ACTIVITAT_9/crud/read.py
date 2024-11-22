@@ -1,4 +1,4 @@
-from ..db_connect.conn import *
+from db_connect.conn import *
 
 #metode read per consultar les entrades a la taula users de la bbdd
 def read_users():

@@ -41,4 +41,12 @@ en el segon cas, un dels key o clau no té el tipus correcte i apareix l'error d
 ![execucio de POST index-weights amb swagger](nested8.jpg)
 
 
++ Taula users vista des de PgAdmin amb 3 usuaris com a exemple
+![Vista taula users a pgadmin](taula_users.jpg)
 
++ Imatge que mostra els fitxers als directoris específics com es demana a l'anunciat.
+També es pot veure la ruta de connexió d'un fitxer que s'està important des d'un altre directori:
+![Imatge de fitxers als directoris](fitxers_directoris.jpg)
+
++ Imatge de l'execució del mètode read en postman:
+![Imatge execucuio metode read amb postman](read_postman.jpg)

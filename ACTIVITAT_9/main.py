@@ -1,9 +1,7 @@
-from typing import Annotated
-from typing import List
-from fastapi import Body, FastAPI
-from pydantic import BaseModel, Field, HttpUrl
-from create_table import *
-from conn import *
+from fastapi import FastAPI
+from pydantic import BaseModel, HttpUrl
+from db_connect.conn import *
+from crud.read import *
 
 app = FastAPI()
 
@@ -50,28 +48,10 @@ async def create_index_weights(weights: dict[int, float]):
     return weights
 
 
+#endpoint users (read) de la taula users
 @app.get("/users/")
-async def read_users():
-    try:
-        conn = connection_db()
-        cur = conn.cursor()
-
-        sql_read = '''SELECT * FROM users'''
-
-        # Amb el mètode execute() s'envia la query
-        cur.execute(sql_read)
-        users = cur.fetchall()
-
-    except Exception as e:
-        return {"message": f"Error de connexió:{e}"}
-
-    finally:
-        conn.close()
-
-    return users
-
-
-
+async def read_taula_users():
+    return read_users()
 
 
 

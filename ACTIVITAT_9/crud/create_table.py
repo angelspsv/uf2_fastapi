@@ -1,5 +1,5 @@
-# fitxer per crear la taula
-from ACTIVITAT_9.db_connect.conn import *
+#importem fitxer per crear la taula
+from ..db_connect.conn import *
 
 def create_taula():
     # per fer la connexio s'utilitza el mètode cursor()
