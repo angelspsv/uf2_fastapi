@@ -1,0 +1,1 @@
+### Fitxer readme per l'Activitat 10
