@@ -19,3 +19,4 @@ def insert_into_tematica(llista_dict):
     finally:
         cur.close()
         conn.close()
+
