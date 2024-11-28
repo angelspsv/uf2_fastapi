@@ -15,4 +15,4 @@ def deCsvALista():
 
 #credem la funcio insert_into_tematica per inserir
 #les dates (listat_dict) de dades des del fitxer csv a la taula
-insert_into_tematica(deCsvALista())
+#insert_into_tematica(deCsvALista())
