@@ -8,4 +8,5 @@
 + La taula _tematicas_ després de l'insert de totes les dades del fitxer csv
 ![taula tematicas amb dades](tabla_tematicas_plena.jpg)
 
-
++ Resposta de l'endpoint _penjat/tematica/options_ després de realitzar la consulta GET i retornar només les themes no repetides.
+![resposta endpoint penjat tematica options](endpoint%20penjat_tematica_options.jpg)

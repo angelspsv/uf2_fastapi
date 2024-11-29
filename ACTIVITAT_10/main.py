@@ -5,9 +5,8 @@ from connection import *
 app = FastAPI()
 
 
-class Tematica(BaseModel):
-    #word: str
-    theme: str
+class Option(BaseModel):
+    option: str
 
 
 #endpoint d'exemple GET amb missatge
@@ -16,7 +15,7 @@ async def root():
     return {"message": "Hola!"}
 
 
-@app.get("/penjat/tematica/opcions", response_model=list[Tematica])
+@app.get("/penjat/tematica/opcions", response_model=list[Option])
 async def tematica_opcions():
     #codi per obtenir les tematiques
 
@@ -32,7 +31,7 @@ async def tematica_opcions():
         mySet_temas = set(tematica[0] for tematica in tematiques)
 
         #fem una llista de Tematica nomes amb els temas no repetits
-        result = [Tematica(theme=theme) for theme in mySet_temas]
+        result = [Option(option=theme) for theme in mySet_temas]
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtenir les tematiques: {str(e)}")
