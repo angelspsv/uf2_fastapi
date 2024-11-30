@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from connection import *
+import random
 
 app = FastAPI()
 
@@ -42,6 +43,51 @@ async def tematica_opcions():
         conn.close()
 
     return result
+
+
+
+
+
+@app.get("/penjat/tematica/{option}", response_model=list[Option])
+async def tematica_random_word(option):
+    #codi per obtenir un mot random a partir d'una tematica rebuda per parametre
+    #obtenim les tematiques
+    conn = connection_db()
+    cur = conn.cursor()
+    try:
+        sql_tematiques_mots = "SELECT * FROM tematicas"
+        cur.execute(sql_tematiques_mots)
+        #desem la query answer
+        tematiques_mots = cur.fetchall()
+
+        #lista con el tema buscado
+        listas_con_tema_buscado = [sublista for sublista in tematiques_mots if option in sublista]
+        #en cuantos resultados aparece la palabra buscada
+        cuantos = len(listas_con_tema_buscado)
+
+        if cuantos == 0:
+            raise HTTPException(status_code=404, detail="Tema no trobat")
+
+        #num random de entre los existentes
+        num_aleatorio = random.randint(1, cuantos)
+        #coger lista segun nuemero random
+        lista_random = listas_con_tema_buscado[num_aleatorio-1][1]
+
+        resultat = [Option(option=lista_random)]
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtenir els mots de la tematica: {str(e)}")
+
+        # tanquem els recursos/connexions
+    finally:
+        cur.close()
+        conn.close()
+    return resultat
+
+
+
+
+
 
 
 
