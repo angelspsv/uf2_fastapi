@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from connection import *
+from insertDATA.connection import *
 import random
 
 app = FastAPI()
