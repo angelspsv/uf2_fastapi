@@ -10,3 +10,7 @@
 
 + Resposta de l'endpoint _penjat/tematica/options_ després de realitzar la consulta GET i retornar només les themes no repetides.
 ![resposta endpoint penjat tematica options](endpoint%20penjat_tematica_options.jpg)
+
++ Resposta de l'endpoint _penjat/tematica/{option}_ realitza la consulta GET i retornar només una paraula random del tema triat.
+![resposta endpoint penjat mot random](endpoint%20penjat_tematica_random_word.jpg)
+
