@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from read_cadena import *
 from pydantic import BaseModel
 from connection import *
+from abcd_query import *
 
 app = FastAPI()
 
@@ -57,30 +58,23 @@ async def intents(ints):
 
 #endpoint per retornar l'abecedari
 @app.get("/abecedari/{id}")
-async def abecedari(id):
-    try:
-        conn = connection_db()
-        cur = conn.cursor()
+async def abecedari(id: int):
+    abecedario = abc_query(id)
 
-        #fem la consulta sql per obtenir l'abecedari que volem des de l'id desitjat
-        cur.execute("SELECT * FROM abecedaris WHERE id_abecedari = %s", (id,))
-        sql_abecedari = cur.fetchone()
+    if abecedario is None:
+        raise HTTPException(status_code=404, detail="Abecedari not found")
 
-        #error de ID no trobat
-        if sql_abecedari is None:
-            raise HTTPException(status_code=404, detail="ID no trobat")
-
-    #error de tipus d'argument
-    except psycopg2.Error as e:
-        raise HTTPException(status_code=500, detail=f"Error de base de datos: {str(e)}")
-
-    # si o si tanquem la connexio a la bbdd al final
-    finally:
-        cur.close()
-        conn.close()
+    # fem una instancia de model i la retornem
+    abecedari_json = Abecedari(
+        id_abecedari=abecedario[0],
+        nom_abecedari=abecedario[1],
+        abecedari=abecedario[2],
+    )
 
     #return format json
-    return {"id_abecedari": sql_abecedari[0], "nom_abecedari": sql_abecedari[1], "abecedari": sql_abecedari[2]}
+    return abecedari_json
+
+    #{"id_abecedari": abecedario[0], "nom_abecedari": abecedario[1], "abecedari": abecedario[2]}
 
 
 
