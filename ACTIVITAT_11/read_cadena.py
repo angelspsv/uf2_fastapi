@@ -1,4 +1,9 @@
 from connection import *
+from pydantic import BaseModel
+
+class Cadena(BaseModel):
+    id_cadena: int
+    cadena: str
 
 def read_cadena_id(id_cadena):
     try:
