@@ -3,6 +3,7 @@ from read_cadena import *
 from pydantic import BaseModel
 from connection import *
 from abcd_query import *
+from estadistiques_sql import *
 
 app = FastAPI()
 
@@ -74,7 +75,7 @@ async def abecedari(id: int):
     #return format json
     return abecedari_json
 
-    #{"id_abecedari": abecedario[0], "nom_abecedari": abecedario[1], "abecedari": abecedario[2]}
+
 
 
 
@@ -82,30 +83,13 @@ async def abecedari(id: int):
 
 # endpoint per renderitzar el text punts partides actuals, total partides, partides guanyades, partida amb mes punts des de la meva taula Estadistiques
 @app.get("/estadistiques/{id_usuari}")
-async def estadistiques(id_usuari):
-    try:
-        conn = connection_db()
-        cur = conn.cursor()
+async def estadistiques(id_usuari: int):
+    resultat_sql = estadistiques_query(id_usuari)
 
-        # fem la consulta sql per obtenir les dades de la taula estadistiques que volem amb l'id_usuari
-        cur.execute("SELECT * FROM estadistiques WHERE id_usuari = %s", (id_usuari,))
-        sql_estadistiques = cur.fetchone()
-
-        # error de ID no trobat
-        if sql_estadistiques is None:
-            raise HTTPException(status_code=404, detail="ID_usuari no trobat")
-
-    # error de tipus d'argument
-    except psycopg2.Error as e:
-        raise HTTPException(status_code=500, detail=f"Error de base de datos: {str(e)}")
-
-    # si o si tanquem la connexio a la bbdd al final
-    finally:
-        cur.close()
-        conn.close()
+    if resultat_sql is None:
+        raise HTTPException(status_code=404, detail="User not found")
 
     # return format json fet manualment
-    return {"partides_totals": sql_estadistiques[2], "partides_guanyades": sql_estadistiques[3], "millor_puntuacio": sql_estadistiques[4]}
-
+    return {"punts_partida": resultat_sql[0], "partides_totals": resultat_sql[1], "partides_guanyades": resultat_sql[2], "millor_puntuacio": resultat_sql[3]}
 
 
