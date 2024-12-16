@@ -31,4 +31,12 @@ def llegir_paraula(id):
     return sql_mot
 
 
+#faig el schema de paraula
+def paraula_schema(mot) -> dict:
+    return {"id_paraula": mot[0],
+            "paraula": mot[1],
+            "tematica": mot[2],
+            "id_abecedari": mot[3]}
+
+
 

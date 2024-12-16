@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import FastAPI, HTTPException
 from connection import *
 from paraules_crud import *
@@ -14,7 +15,7 @@ async def prova():
 
 
 #endpoint per llegir una entrada de la taula PARAULES
-@app.get("/paraules/read/{id}")
+@app.get("/paraules/read/{id}", response_model=dict)
 async def read_paraula(id: int):
     paraula = llegir_paraula(id)
 
@@ -22,6 +23,6 @@ async def read_paraula(id: int):
         raise HTTPException(status_code=404, detail=f'Paraula amb {id} no trobada')
 
     # returnem el resultat en format json
-    return {"id_paraula": paraula[0], "paraula": paraula[1], "tematica": paraula[2], "id_abecedari": paraula[3]}
+    return paraula_schema(paraula)
 
 
