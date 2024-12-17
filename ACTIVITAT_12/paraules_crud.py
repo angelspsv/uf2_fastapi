@@ -67,3 +67,28 @@ def esborrar_mot(id):
         conn.close()
 
 
+
+# funcio per fer un insert a la taula PARAULES amb un POST (CREATE)
+def insert_new_word(paraula):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+        #fem l'insert a la taula PARAULES
+        cur.execute("INSERT INTO paraules (paraula, tematica, id_abecedari) VALUES (%s, %s, %s)", (paraula.paraula, paraula.tematica, paraula.id_abecedari))
+        #defem els canvis fets a la taula
+        conn.commit()
+
+    except psycopg2.Error as e:
+        # per errors especifics de la bbdd
+        raise HTTPException(status_code=500, detail=f"Error amb la base de dades: {str(e)}")
+
+    finally:
+        # tanquem els recursos oberts
+        cur.close()
+        conn.close()
+
+    # retornem missatge d'exit
+    return {"message": "new word created"}
+
+
+

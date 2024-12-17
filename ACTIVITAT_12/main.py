@@ -2,6 +2,7 @@ from typing import List
 from fastapi import FastAPI, HTTPException
 from connection import *
 from paraules_crud import *
+from pydantic import BaseModel
 
 
 app = FastAPI()
@@ -33,4 +34,14 @@ async def delete_paraula(id: int):
     return resultat
 
 
+class Paraula(BaseModel):
+    paraula: str
+    tematica: str
+    id_abecedari: int
+
+#endpoint per crear/inserir una nova paraula a la taula PARAULES
+@app.post("/paraules/create/", response_model=dict)
+def create_paraula(paraula: Paraula):
+    result = insert_new_word(paraula)
+    return result
 
