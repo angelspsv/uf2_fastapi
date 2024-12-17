@@ -16,7 +16,7 @@ def llegir_paraula(id):
 
         # error de ID no trobat
         if sql_mot is None:
-            raise HTTPException(status_code=404, detail="ID no trobat")
+            raise HTTPException(status_code=404, detail=f'ID {id} no trobat')
 
     # error de tipus d'argument
     except psycopg2.Error as e:
@@ -31,6 +31,7 @@ def llegir_paraula(id):
     return sql_mot
 
 
+
 #faig el schema de paraula
 def paraula_schema(mot) -> dict:
     return {"id_paraula": mot[0],
@@ -38,5 +39,31 @@ def paraula_schema(mot) -> dict:
             "tematica": mot[2],
             "id_abecedari": mot[3]}
 
+
+
+#faig la funcio per esborrar una paraula de la taula PARAULES
+def esborrar_mot(id):
+    # a la funcio llegir_paraula(id) mirem si l'id del mot existeix a la taula paraules
+    existeix = llegir_paraula(id)
+
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+
+        # esborrem l'alumne de la bbdd pel seu id_alumne
+        cur.execute("DELETE FROM paraules WHERE id_paraula = %s", (id,))
+
+        # desem els canvis
+        conn.commit()
+
+        # sms d'operació finalitzada amb èxit
+        return {"message": "S'ha esborrat correctament"}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error durant l'eliminació de la paraula: {str(e)}")
+
+    finally:
+        cur.close()
+        conn.close()
 
 

@@ -26,3 +26,11 @@ async def read_paraula(id: int):
     return paraula_schema(paraula)
 
 
+#endpoint per esborrar/eliminar un mot de la taula paraules
+@app.delete("/paraules/delete/{id}")
+async def delete_paraula(id: int):
+    resultat = esborrar_mot(id)
+    return resultat
+
+
+
