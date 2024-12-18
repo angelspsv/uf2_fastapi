@@ -45,3 +45,9 @@ def create_paraula(paraula: Paraula):
     result = insert_new_word(paraula)
     return result
 
+
+
+@app.put("/paraules/update/{id}")
+def update_paraules(id: int, updated_paraula: Paraula):
+    resultat = modifica_paraula(id, updated_paraula)
+    return resultat

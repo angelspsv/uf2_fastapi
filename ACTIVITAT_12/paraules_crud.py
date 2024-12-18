@@ -92,3 +92,23 @@ def insert_new_word(paraula):
 
 
 
+#funcio per fer l'UPDATE de la taula paraules
+def modifica_paraula(id, updated_paraula):
+    #per veure si existeix l'id cridaré la funcio llegir_paraula
+    existeix = llegir_paraula(id)
+
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+
+        cur.execute("UPDATE paraules SET paraula = %s, tematica = %s, id_abecedari = %s WHERE id_paraula = %s", (updated_paraula.paraula, updated_paraula.tematica, updated_paraula.id_abecedari, id))
+        conn.commit()
+        return {"message": "Paraula updated successfully"}
+
+    except psycopg2.Error as e:
+        raise HTTPException(status_code=500, detail=f"Error amb la base de dades: {str(e)}")
+    finally:
+        cur.close()
+        conn.close()
+
+
