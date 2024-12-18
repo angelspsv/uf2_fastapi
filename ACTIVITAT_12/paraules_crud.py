@@ -18,6 +18,9 @@ def llegir_paraula(id):
         if sql_mot is None:
             raise HTTPException(status_code=404, detail=f'ID {id} no trobat')
 
+        # returnem el resultat
+        return sql_mot
+
     # error de tipus d'argument
     except psycopg2.Error as e:
         raise HTTPException(status_code=500, detail=f"Error de base de datos: {str(e)}")
@@ -26,9 +29,6 @@ def llegir_paraula(id):
     finally:
         cur.close()
         conn.close()
-
-    # returnem el resultat
-    return sql_mot
 
 
 
@@ -83,6 +83,9 @@ def insert_new_word(paraula):
         #defem els canvis fets a la taula
         conn.commit()
 
+        # retornem missatge d'exit
+        return {"message": "new word created"}
+
     except psycopg2.Error as e:
         # per errors especifics de la bbdd
         raise HTTPException(status_code=500, detail=f"Error amb la base de dades: {str(e)}")
@@ -92,8 +95,6 @@ def insert_new_word(paraula):
         cur.close()
         conn.close()
 
-    # retornem missatge d'exit
-    return {"message": "new word created"}
 
 
 
@@ -114,6 +115,7 @@ def modifica_paraula(id, updated_paraula):
 
         cur.execute("UPDATE paraules SET paraula = %s, tematica = %s, id_abecedari = %s WHERE id_paraula = %s", (updated_paraula.paraula, updated_paraula.tematica, updated_paraula.id_abecedari, id))
         conn.commit()
+
         return {"message": "Paraula updated successfully"}
 
     except psycopg2.Error as e:
@@ -121,5 +123,3 @@ def modifica_paraula(id, updated_paraula):
     finally:
         cur.close()
         conn.close()
-
-
