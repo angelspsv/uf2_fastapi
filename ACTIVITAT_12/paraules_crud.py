@@ -10,7 +10,7 @@ def llegir_paraula(id):
         conn = connection_db()
         cur = conn.cursor()
 
-        # fem la consulta sql per obtenir l'abecedari que volem des de l'id desitjat
+        #fem la consulta sql per veure si l'id existeix
         cur.execute("SELECT * FROM paraules WHERE id_paraula = %s", (id,))
         sql_mot = cur.fetchone()
 
@@ -43,12 +43,17 @@ def paraula_schema(mot) -> dict:
 
 #faig la funcio per esborrar una paraula de la taula PARAULES
 def esborrar_mot(id):
-    # a la funcio llegir_paraula(id) mirem si l'id del mot existeix a la taula paraules
-    existeix = llegir_paraula(id)
-
     try:
         conn = connection_db()
         cur = conn.cursor()
+
+        #fem la consulta sql per veure si l'id existeix
+        cur.execute("SELECT * FROM paraules WHERE id_paraula = %s", (id,))
+        sql_mot = cur.fetchone()
+
+        # error de ID no trobat
+        if sql_mot is None:
+            raise HTTPException(status_code=404, detail=f'ID {id} no trobat')
 
         # esborrem l'alumne de la bbdd pel seu id_alumne
         cur.execute("DELETE FROM paraules WHERE id_paraula = %s", (id,))
@@ -94,12 +99,18 @@ def insert_new_word(paraula):
 
 #funcio per fer l'UPDATE de la taula paraules
 def modifica_paraula(id, updated_paraula):
-    #per veure si existeix l'id cridaré la funcio llegir_paraula
-    existeix = llegir_paraula(id)
-
     try:
+        #connexio amb la bbdd
         conn = connection_db()
         cur = conn.cursor()
+
+        # fem la consulta sql per veure si l'id existeix
+        cur.execute("SELECT * FROM paraules WHERE id_paraula = %s", (id,))
+        sql_mot = cur.fetchone()
+
+        # error de ID no trobat
+        if sql_mot is None:
+            raise HTTPException(status_code=404, detail=f'ID {id} no trobat')
 
         cur.execute("UPDATE paraules SET paraula = %s, tematica = %s, id_abecedari = %s WHERE id_paraula = %s", (updated_paraula.paraula, updated_paraula.tematica, updated_paraula.id_abecedari, id))
         conn.commit()
