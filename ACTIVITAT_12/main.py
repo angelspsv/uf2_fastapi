@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 from connection import *
 from paraules_crud import *
 from pydantic import BaseModel
+from abecedaris_crud import *
 
 
 app = FastAPI()
@@ -41,13 +42,22 @@ class Paraula(BaseModel):
 
 #endpoint per crear/inserir una nova paraula a la taula PARAULES
 @app.post("/paraules/create/", response_model=dict)
-def create_paraula(paraula: Paraula):
+async def create_paraula(paraula: Paraula):
     result = insert_new_word(paraula)
     return result
 
 
 
 @app.put("/paraules/update/{id}")
-def update_paraules(id: int, updated_paraula: Paraula):
+async def update_paraules(id: int, updated_paraula: Paraula):
     resultat = modifica_paraula(id, updated_paraula)
     return resultat
+
+
+
+# endpoints del CRUD per la taula ABECEDARIS
+@app.get("/abecedaris/read/{id}", response_model=dict)
+async def read_abecedari(id: int):
+    abecedari = llegir_abecedari(id)
+    # returnem el resultat en format json
+    return abecedari_schema(abecedari)
