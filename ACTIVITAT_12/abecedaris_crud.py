@@ -38,3 +38,28 @@ def abecedari_schema(mot) -> dict:
             "abecedari": mot[2]}
 
 
+# metode per fer el DELETE de la taula abecedaris
+def delete_abecedari(id):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+
+        #mirem si existeix l'id
+        cur.execute("SELECT * FROM abecedaris WHERE id_abecedari = %s", (id,))
+        #resultat de la query
+        resultat = cur.fetchone()
+
+        if resultat is None:
+            raise HTTPException(status_code=404, detail=f'ID {id} abecedari no trobat')
+
+        #fem la query per esborrar l'abecedari desitjat
+        cur.execute("DELETE FROM abecedaris WHERE id_abecedari = %s", (id,))
+
+        #desem els canvis a la base de dades; de nou ens cal fer la connexio a la bbdd
+        conn.commit()
+        return {"message": f"S'ha esborrat correctament l'abecedari amb id {id}"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error durant l'eliminació de l'entrada: {str(e)}")
+    finally:
+        cur.close()
+        conn.close()

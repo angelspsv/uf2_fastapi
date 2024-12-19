@@ -47,7 +47,7 @@ async def create_paraula(paraula: Paraula):
     return result
 
 
-
+#endpoint per modificar una paraula de la taula PARAULES
 @app.put("/paraules/update/{id}")
 async def update_paraules(id: int, updated_paraula: Paraula):
     resultat = modifica_paraula(id, updated_paraula)
@@ -61,3 +61,10 @@ async def read_abecedari(id: int):
     abecedari = llegir_abecedari(id)
     # returnem el resultat en format json
     return abecedari_schema(abecedari)
+
+
+#endpoint per esborrar un abecedari
+@app.delete("/abecedaris/delete/{id}")
+async def esborrar_alfabet(id: int):
+    resultat = delete_abecedari(id)
+    return resultat
