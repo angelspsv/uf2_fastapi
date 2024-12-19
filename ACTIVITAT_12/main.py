@@ -48,7 +48,7 @@ async def create_paraula(paraula: Paraula):
 
 
 #endpoint per modificar una paraula de la taula PARAULES
-@app.put("/paraules/update/{id}")
+@app.put("/paraules/update/{id}", response_model=dict)
 async def update_paraules(id: int, updated_paraula: Paraula):
     resultat = modifica_paraula(id, updated_paraula)
     return resultat
@@ -68,3 +68,25 @@ async def read_abecedari(id: int):
 async def esborrar_alfabet(id: int):
     resultat = delete_abecedari(id)
     return resultat
+
+
+class Abecedari(BaseModel):
+    nom_abecedari: str
+    abecedari: str
+
+
+#endpoint per fer INSERT/CREATE a la taula abecedaris
+@app.post("/abecedaris/create/", response_model=dict)
+async def insert_abecedari(abecedari: Abecedari):
+    result = nou_abecedari(abecedari)
+    return result
+
+
+#endpoint per editar/UPDATE una entrada de la taula abecedaris
+@app.put("/abecedaris/update/{id}", response_model=dict)
+async def update_abecedari(id: int, abecedari: Abecedari):
+    resultat = editar_abecedari(id, abecedari)
+    return resultat
+
+
+

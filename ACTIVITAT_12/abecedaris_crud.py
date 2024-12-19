@@ -63,3 +63,48 @@ def delete_abecedari(id):
     finally:
         cur.close()
         conn.close()
+
+
+# funcio que fara un insert de nou abecedari a la taula abecedaris
+def nou_abecedari(abecedari):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+        #preparem l'insert de la nova entrada
+        cur.execute("INSERT INTO abecedaris (nom_abecedari, abecedari) VALUES (%s, %s)", (abecedari.nom_abecedari, abecedari.abecedari))
+        #desem els canvis a la bbdd
+        conn.commit()
+
+        return {"message":"nova entrada realitzada a la taula abecedari"}
+    except psycopg2.Error as e:
+        # per errors especifics de la bbdd
+        raise HTTPException(status_code=500, detail=f"Error amb la base de dades: {str(e)}")
+    finally:
+        cur.close()
+        conn.close()
+
+
+# funcio per modificar (PUT/UPDATE) una entrada de la taula abecedaris
+def editar_abecedari(id, edit_abecedari):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+
+        #mirem si l'id existeix
+        cur.execute("SELECT * FROM abecedaris WHERE id_abecedari = %s", (id,))
+        sql_result = cur.fetchone()
+
+        #si no existeix l'id entrat, excepcio
+        if sql_result is None:
+            raise HTTPException(status_code=404, detail=f'Id {id} no tobat')
+
+        #si existeix fem l'update de la entrada amb id X
+        cur.execute("UPDATE abecedaris SET nom_abecedari = %s, abecedari = %s WHERE id_abecedari = %s", (edit_abecedari.nom_abecedari, edit_abecedari.abecedari, id))
+        conn.commit()
+
+        return {"message":"Entrada abecedari actualitzada amb exit"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error amb la base de dades: {str(e)}")
+    finally:
+        cur.close()
+        conn.close()
