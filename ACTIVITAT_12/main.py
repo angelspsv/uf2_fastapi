@@ -4,6 +4,7 @@ from connection import *
 from paraules_crud import *
 from pydantic import BaseModel
 from abecedaris_crud import *
+from cadenas_crud import *
 
 
 app = FastAPI()
@@ -88,5 +89,14 @@ async def update_abecedari(id: int, abecedari: Abecedari):
     resultat = editar_abecedari(id, abecedari)
     return resultat
 
+
+
+# Endpoints per la taula cadenas
+#endpoint per llegir/READ entrada de la taula cadenas
+@app.get("/cadenas/read/{id}", response_model=dict)
+async def read_cadenas(id: int):
+    resultat = llegir_cadena(id)
+    #el resultat de la sql_query se la paso a cadenas_schema que retorna un json
+    return cadenas_schema(resultat)
 
 
