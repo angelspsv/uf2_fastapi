@@ -100,3 +100,11 @@ async def read_cadenas(id: int):
     return cadenas_schema(resultat)
 
 
+#endpoint per esborrar una entrada de la taula cadenas
+@app.delete("/cadenas/delete/{id}")
+async def delete_cadenas(id: int):
+    resultado = borrar_cadenas(id)
+    return resultado
+
+
+
