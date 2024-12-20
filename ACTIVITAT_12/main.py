@@ -5,6 +5,7 @@ from paraules_crud import *
 from pydantic import BaseModel
 from abecedaris_crud import *
 from cadenas_crud import *
+from partides_crud import *
 
 
 app = FastAPI()
@@ -21,10 +22,6 @@ async def prova():
 @app.get("/paraules/read/{id}", response_model=dict)
 async def read_paraula(id: int):
     paraula = llegir_paraula(id)
-
-    if paraula is None:
-        raise HTTPException(status_code=404, detail=f'Paraula amb {id} no trobada')
-
     # returnem el resultat en format json
     return paraula_schema(paraula)
 
@@ -126,5 +123,12 @@ async def update_cadena(id: int, cadena: Cadena):
     respuesta = editar_cadena(id, cadena)
     return respuesta
 
+
+# Endpoints CRUD per la taula PARTIDES
+#endpoint (GET)/READ de la taula partides
+@app.get("/partides/read/{id}", response_model=dict)
+async def read_partida(id: int):
+    entrada = llegir_partides(id)
+    return partida_schema(entrada)
 
 
