@@ -108,3 +108,23 @@ async def delete_cadenas(id: int):
 
 
 
+class Cadena(BaseModel):
+    cadena: str
+
+
+#endpoint per fer entrades/CREATE a la taula CADENAS
+@app.post("/cadenas/create/", response_model=dict)
+async def create_cadena(cadena: Cadena):
+    answer = insert_cadenas(cadena)
+    return answer
+
+
+
+#endpoint per editar (UPDATE) una entrada de la taula cadenas
+@app.put("/cadenas/update/{id}", response_model=dict)
+async def update_cadena(id: int, cadena: Cadena):
+    respuesta = editar_cadena(id, cadena)
+    return respuesta
+
+
+
