@@ -171,3 +171,18 @@ async def update_partida(id: int, partida: Partida):
 async def read_estadistiques(id: int):
     result = llegir_estadistiques(id)
     return schema_estadistiques(result)
+
+
+class Estadistica(BaseModel):
+    id_usuari: int
+    partides_totals: int
+    partides_guanyades: int
+    millor_puntuacio: int
+
+
+#endpoint per fer INSERT/CREATE a la taula estadistiques
+@app.post("/estadistiques/create/", response_model=dict)
+async def create_estadistiques(estadistica: Estadistica):
+    resultat = insert_estadistiques(estadistica)
+    return resultat
+

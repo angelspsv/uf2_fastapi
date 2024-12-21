@@ -30,3 +30,20 @@ def schema_estadistiques(lista) -> dict:
         "partides_guanyades": lista[3],
         "millor_puntuacio": lista[4]
     }
+
+
+#funcio per fer insert a la taula estadistiques
+def insert_estadistiques(estadistica):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+        #preparem l'insert per la taula estadistiques
+        cur.execute("INSERT INTO estadistiques (id_usuari, partides_totals, partides_guanyades, millor_puntuacio) VALUES (%s, %s, %s, %s)", (estadistica.id_usuari, estadistica.partides_totals, estadistica.partides_guanyades, estadistica.millor_puntuacio))
+        #desem els canvis a la taula/bbdd
+        conn.commit()
+        return {"message": "Nova entrada a estadistiques realitzada amb exit"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error a la bbdd: {str(e)}')
+    finally:
+        cur.close()
+        conn.close()
