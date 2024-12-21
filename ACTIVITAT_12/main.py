@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from abecedaris_crud import *
 from cadenas_crud import *
 from partides_crud import *
+from estadistiques_crud import *
 
 
 app = FastAPI()
@@ -164,4 +165,9 @@ async def update_partida(id: int, partida: Partida):
     return resultado
 
 
-
+#endpoints per la taula estadistiques
+#endpoint GET/READ de la taula estadistiques
+@app.get("/estadistiques/read/{id}", response_model=dict)
+async def read_estadistiques(id: int):
+    result = llegir_estadistiques(id)
+    return schema_estadistiques(result)
