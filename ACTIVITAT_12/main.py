@@ -132,3 +132,13 @@ async def read_partida(id: int):
     return partida_schema(entrada)
 
 
+
+#endpoint per esborrar una entrada de la taula partides
+@app.delete("/partides/delete/{id}")
+async def delete_partida(id: int):
+    result = esborrar_partida(id)
+    return result
+
+
+
+
