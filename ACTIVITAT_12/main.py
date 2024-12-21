@@ -157,3 +157,11 @@ async def create_partida(partida: Partida):
 
 
 
+#endpoint per editar (UPDATE) una entrada de la taula partides
+@app.put("/partides/update/{id}", response_model=dict)
+async def update_partida(id: int, partida: Partida):
+    resultado = editar_partida(id, partida)
+    return resultado
+
+
+

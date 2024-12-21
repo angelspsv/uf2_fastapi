@@ -78,3 +78,24 @@ def insert_partides(partida):
         conn.close()
 
 
+
+#funcio per modificar una entrada en la taula partides
+def editar_partida(id, edit_partida):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+        #mirem si existeix l'id
+        cur.execute("SELECT * FROM partides WHERE id_partida = %s", (id,))
+        resp_sql = cur.fetchone()
+        if resp_sql is None:
+            raise HTTPException(status_code=404, detail=f'ID= {id} no trobat.')
+        #si existeix faig query de update
+        cur.execute("UPDATE partides SET id_paraula = %s, id_usuari = %s, intents = %s, punts_partida = %s, resultat_partida = %s WHERE id_partida = %s", (edit_partida.id_paraula, edit_partida.id_usuari, edit_partida.intents, edit_partida.punts_partida, edit_partida.resultat_partida, id))
+        conn.commit()
+        return {"message": f'partida amb id={id} actualitzada amb exit'}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error amb la bbdd. {str(e)}')
+    finally:
+        cur.close()
+        conn.close()
+
