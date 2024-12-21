@@ -141,4 +141,19 @@ async def delete_partida(id: int):
 
 
 
+class Partida(BaseModel):
+    id_paraula: int
+    id_usuari: int
+    intents: int
+    punts_partida: int
+    resultat_partida: int
+
+
+#endpoint POST/CREATE per la taula PARTIDES
+@app.post("/partides/create/", response_model=dict)
+async def create_partida(partida: Partida):
+    resultat = insert_partides(partida)
+    return resultat
+
+
 
