@@ -47,3 +47,27 @@ def insert_estadistiques(estadistica):
     finally:
         cur.close()
         conn.close()
+
+
+#funcio per esborrar una entrada de la taula estadistiques
+def esborrar_estadistica(id):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+        #mirem si el id existeix
+        cur.execute("SELECT * FROM estadistiques WHERE id_estadistica = %s", (id,))
+        sql_result = cur.fetchone()
+        #si no hi es
+        if sql_result is None:
+            raise HTTPException(status_code=404, detail=f'ID= {id} no trobat.')
+        #si existeix
+        cur.execute("DELETE FROM estadistiques WHERE id_estadistica = %s", (id,))
+        conn.commit()
+        return {"message": f'Entrada amb ID={id} esborrada correctament'}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error amb la bbdd. {str(e)}')
+    finally:
+        cur.close()
+        conn.close()
+
+

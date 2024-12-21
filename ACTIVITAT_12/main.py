@@ -186,3 +186,12 @@ async def create_estadistiques(estadistica: Estadistica):
     resultat = insert_estadistiques(estadistica)
     return resultat
 
+
+
+#endpoint per esborrar entrades de la taula estadistiques
+@app.delete("/estadistiques/delete/{id}")
+async def delete_estadistiques(id: int):
+    resposta = esborrar_estadistica(id)
+    return resposta
+
+
