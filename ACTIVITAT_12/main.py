@@ -195,3 +195,10 @@ async def delete_estadistiques(id: int):
     return resposta
 
 
+
+#endpoint per UPDATE/PUT de la taula estadistiques
+@app.put("/estadistiques/update/{id}", response_model=dict)
+async def update_estadistiques(id: int, estadistica: Estadistica):
+    resultado = editar_estadistiques(id, estadistica)
+    return resultado
+

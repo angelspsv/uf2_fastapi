@@ -71,3 +71,29 @@ def esborrar_estadistica(id):
         conn.close()
 
 
+
+#funcio per editar una entrada de la taula estadistiques
+def editar_estadistiques(id, edit_estadis):
+    try:
+        conn = connection_db()
+        cur = conn.cursor()
+        #mirem si existeix l'id entrat
+        cur.execute("SELECT * FROM estadistiques WHERE id_estadistica = %s", (id,))
+        sql_result = cur.fetchone()
+        if sql_result is None:
+            raise HTTPException(status_code=404, detail=f'ID={id} no trobat.')
+        #preparem el update ja que id existeix
+        cur.execute("UPDATE estadistiques SET id_usuari = %s, partides_totals = %s, partides_guanyades = %s, millor_puntuacio = %s WHERE id_estadistica = %s", (edit_estadis.id_usuari, edit_estadis.partides_totals, edit_estadis.partides_guanyades, edit_estadis.millor_puntuacio, id))
+        #desem els canvis
+        conn.commit()
+        return {"message": f'Entrada amb id={id} actualitzada amb exit.'}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error amb la bbdd. {str(e)}')
+    finally:
+        cur.close()
+        conn.close()
+
+
+
+
+
